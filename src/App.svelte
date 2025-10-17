@@ -1,7 +1,7 @@
 <script lang="ts">
   import Cell from "./Cell.svelte";
   import FullscreenButton from "./FullscreenButton.svelte";
-  import { HEIGHT, state, WIDTH } from "./game.svelte.ts";
+  import { HEIGHT, WIDTH } from "./game.svelte.ts";
   import PlayerDisplay from "./PlayerDisplay.svelte";
   import RestartButton from "./RestartButton.svelte";
 </script>
@@ -13,7 +13,7 @@
     <div class="grid grid-cols-10">
       {#each { length: HEIGHT } as _, y}
         {#each { length: WIDTH } as _, x}
-          <div class="h-[calc(100cqh / 8)] aspect-square p-[.3cqw]">
+          <div class="aspect-square h-[calc(100cqh/8)] p-[.3cqw]">
             <Cell {x} {y} />
           </div>
         {/each}

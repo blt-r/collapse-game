@@ -1,7 +1,7 @@
 <script lang="ts">
   import Cell from "./Cell.svelte";
   import FullscreenButton from "./FullscreenButton.svelte";
-  import { state } from "./game.svelte.ts";
+  import { HEIGHT, state, WIDTH } from "./game.svelte.ts";
   import PlayerDisplay from "./PlayerDisplay.svelte";
   import RestartButton from "./RestartButton.svelte";
 </script>
@@ -11,8 +11,8 @@
     class="@container-[size] mx-auto flex aspect-video max-h-dvh items-stretch overflow-hidden"
   >
     <div class="grid grid-cols-10">
-      {#each state.board as row, y}
-        {#each row as _, x}
+      {#each { length: HEIGHT } as _, y}
+        {#each { length: WIDTH } as _, x}
           <div class="h-[calc(100cqh / 8)] aspect-square p-[.3cqw]">
             <Cell {x} {y} />
           </div>

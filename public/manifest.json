@@ -1,0 +1,25 @@
+{
+  "name": "Collapse",
+  "short_name": "Collapse",
+  "description": "A four player game",
+  "start_url": "/",
+  "theme_color": "#34d399",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "collapse-game.svg",
+      "sizes": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot.webp",
+      "sizes": "1001x568",
+      "type": "image/webp",
+      "platform": "",
+      "label": "A game in progress"
+    }
+  ]
+}

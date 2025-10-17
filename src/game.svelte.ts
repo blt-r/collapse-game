@@ -44,12 +44,17 @@ export const processMove = async (x: number, y: number) => {
 
   if (state.firstMove) {
     if (state.board[y][x].player === null) {
+      state.inAnimation = true;
+
       state.board[y][x] = {
         player: state.currentPlayer,
         dots: 3,
       };
       state.currentPlayer = nextPlayer(state.currentPlayer);
       if (state.currentPlayer === 0) state.firstMove = false;
+
+      await waitToAppear(); // wait for the appear animation
+      state.inAnimation = false;
     }
 
     return;
@@ -64,7 +69,7 @@ const addDot = async (x: number, y: number) => {
   state.inAnimation = true;
 
   state.board[y][x].dots += 1;
-  await wait(); // wait for the dot animation
+  await waitToAnimate(); // wait for the dot animation
 
   while (true) {
     const exploded: Point[] = [];
@@ -84,7 +89,7 @@ const addDot = async (x: number, y: number) => {
       }
     }
 
-    await wait(); // wait for the explode animation
+    await waitToAnimate(); // wait for the explode animation
 
     if (exploded.length === 0) break;
 
@@ -97,7 +102,7 @@ const addDot = async (x: number, y: number) => {
 
     killPlayers();
 
-    await wait(); // wait for the dot animation
+    await waitToAnimate(); // wait for the dot animation
   }
 
   state.inAnimation = false;
@@ -116,7 +121,8 @@ const killPlayers = () => {
   state.alivePlayers = alive;
 };
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 150));
+const waitToAnimate = () => new Promise((resolve) => setTimeout(resolve, 150));
+const waitToAppear = () => new Promise((resolve) => setTimeout(resolve, 75));
 
 const neighbors = ({ x, y }: Point): Point[] =>
   [

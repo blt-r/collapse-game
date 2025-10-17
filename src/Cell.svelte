@@ -16,7 +16,7 @@
         "size-full rounded-[100dvh] transition-colors duration-150",
         "Dots",
       ]}
-      style="background-color: {PLAYER_COLORS[cell.player]}"
+      style:background-color={PLAYER_COLORS[cell.player]}
       data-dots={cell.dots}
       transition:fade={{ duration: 75 }}
     >

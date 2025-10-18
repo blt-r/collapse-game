@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PLAYER_COLORS, PLAYER_NAMES, state } from "./game.svelte.ts";
+  import { PLAYER_COLORS, PLAYER_NAMES, state } from "$lib/game.svelte.ts";
 </script>
 
 <div>

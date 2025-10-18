@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { PLAYER_COLORS, processMove, state } from "./game.svelte.ts";
+  import { PLAYER_COLORS, processMove, state } from "$lib/game.svelte.ts";
 
   let { x, y }: { x: number; y: number } = $props();
   let cell = $derived(state.board[y][x]);

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Cell from "./Cell.svelte";
-  import FullscreenButton from "./FullscreenButton.svelte";
-  import { HEIGHT, WIDTH } from "./game.svelte.ts";
-  import PlayerDisplay from "./PlayerDisplay.svelte";
-  import RestartButton from "./RestartButton.svelte";
+  import Cell from "$lib/components/Cell.svelte";
+  import FullscreenButton from "$lib/components/FullscreenButton.svelte";
+  import PlayerDisplay from "$lib/components/PlayerDisplay.svelte";
+  import RestartButton from "$lib/components/RestartButton.svelte";
+  import { HEIGHT, WIDTH } from "$lib/game.svelte.ts";
 </script>
 
 <div class="fixed inset-0">

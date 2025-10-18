@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { initialState, state } from "./game.svelte.ts";
+  import { initialState, state } from "$lib/game.svelte.ts";
 
   const restartGame = () => {
     Object.assign(state, initialState());

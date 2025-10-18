@@ -89,9 +89,9 @@ const addDot = async (x: number, y: number) => {
       }
     }
 
-    await waitToAnimate(); // wait for the explode animation
-
     if (exploded.length === 0) break;
+
+    await waitToAnimate(); // wait for the explode animation
 
     for (const { x, y } of exploded) {
       for (const { x: nx, y: ny } of neighbors({ x, y })) {

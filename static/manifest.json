@@ -1,7 +1,7 @@
 {
   "name": "Collapse",
   "short_name": "Collapse",
-  "description": "A four player game",
+  "description": "A strategy game for multiple players",
   "start_url": "/",
   "theme_color": "#34d399",
   "background_color": "#ffffff",

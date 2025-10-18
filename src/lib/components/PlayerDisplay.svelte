@@ -3,7 +3,7 @@
 </script>
 
 <div>
-  {#each state.alivePlayers as alive, i}
+  {#each state.alivePlayers as alive, i (i)}
     <div
       style:background-color={PLAYER_COLORS[i]}
       class={[

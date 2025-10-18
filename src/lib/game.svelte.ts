@@ -27,11 +27,11 @@ export const initialState = (): GameState => ({
   alivePlayers: [true, true, true, true],
 });
 
-export let state: GameState = $state(initialState());
+export const state: GameState = $state(initialState());
 
 const nextPlayer = (player: Player): Player => {
   let next = (player + 1) % 4;
-  while (!state.alivePlayers[next as Player]) {
+  while (!state.alivePlayers[next]) {
     next = (next + 1) % 4;
   }
   return next as Player;

@@ -11,8 +11,8 @@
     class="@container-[size] mx-auto flex aspect-video max-h-dvh items-stretch overflow-hidden"
   >
     <div class="grid grid-cols-10">
-      {#each { length: HEIGHT } as _, y}
-        {#each { length: WIDTH } as _, x}
+      {#each { length: HEIGHT } as _, y (y)}
+        {#each { length: WIDTH } as _, x (x)}
           <div class="aspect-square h-[calc(100cqh/8)] p-[.3cqw]">
             <Cell {x} {y} />
           </div>

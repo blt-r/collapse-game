@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+:root {
+  --color-player-0: #f87171;
+  --color-player-1: #60a5fa;
+  --color-player-2: #34d399;
+  --color-player-3: #ffcb4a;
+  --color-player-4: #ff83cb;
+  --color-player-5: #ff9e4a;
+  --color-player-6: #985dc5;
+  --color-player-7: #ac7f5e;
+}
+
+@theme inline {
+  --color-player-0: var(--color-player-0);
+  --color-player-1: var(--color-player-1);
+  --color-player-2: var(--color-player-2);
+  --color-player-3: var(--color-player-3);
+}

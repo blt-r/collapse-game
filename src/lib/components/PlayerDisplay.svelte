@@ -1,20 +1,34 @@
 <script lang="ts">
-  import { PLAYER_COLORS, PLAYER_NAMES, state } from "$lib/game.svelte.ts";
+  import { PLAYER_NAMES, state } from "$lib/game.svelte.ts";
+
+  const enabledPlayers: [boolean, number][] = $derived(
+    state.alivePlayers.flatMap((status, p) =>
+      status === null ? [] : [[status, p]],
+    ),
+  );
 </script>
 
-<div>
-  {#each state.alivePlayers as alive, i (i)}
-    <div
-      style:background-color={PLAYER_COLORS[i]}
+<ul
+  class={[
+    "flex flex-col gap-[.8cqw]",
+    {
+      "text-[3cqw]": enabledPlayers.length <= 6,
+      "text-[2cqw]": enabledPlayers.length > 6,
+    },
+  ]}
+>
+  {#each enabledPlayers as [alive, p] (p)}
+    <li
+      style:background-color="var(--color-player-{p})"
       class={[
-        "mb-[1cqw] rounded-[1cqw] p-[1cqw] font-bold outline-[.5cqw] transition-colors duration-150",
+        "rounded-[1cqw] p-[.8cqw] font-bold outline-[.5cqw] transition-colors duration-150",
         !alive && "opacity-25",
-        state.currentPlayer === i && !state.inAnimation
+        state.currentPlayer === p && !state.inAnimation
           ? "outline-indigo-800"
           : "outline-transparent",
       ]}
     >
-      {PLAYER_NAMES[i]} Player
-    </div>
+      {PLAYER_NAMES[p]} Player
+    </li>
   {/each}
-</div>
+</ul>

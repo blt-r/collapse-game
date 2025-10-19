@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { PLAYER_COLORS, processMove, state } from "$lib/game.svelte.ts";
+  import { processMove, state } from "$lib/game.svelte.ts";
 
   let { x, y }: { x: number; y: number } = $props();
   let cell = $derived(state.board[y][x]);
@@ -16,7 +16,7 @@
         "size-full rounded-[100dvh] transition-colors duration-150",
         "Dots",
       ]}
-      style:background-color={PLAYER_COLORS[cell.player]}
+      style:background-color="var(--color-player-{cell.player})"
       data-dots={cell.dots}
       transition:fade={{ duration: 75 }}
     >

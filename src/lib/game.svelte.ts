@@ -1,45 +1,60 @@
 export const WIDTH = 10;
 export const HEIGHT = 8;
 
-export type Player = 0 | 1 | 2 | 3;
-export type Cell = { player: Player | null; dots: number };
+export type Cell = { player: number | null; dots: number };
 export type Board = Cell[][];
 export type Point = { x: number; y: number };
 
-export const PLAYER_NAMES = ["Red", "Blue", "Green", "Yellow"];
-export const PLAYER_COLORS = ["#f87171", "#60a5fa", "#34d399", "#fcca4c"];
+export const PLAYER_NAMES = [
+  "Red",
+  "Blue",
+  "Green",
+  "Yellow",
+  "Pink",
+  "Orange",
+  "Purple",
+  "Brown",
+];
+
+export type Settings = {
+  players: boolean[];
+};
+
+export const settings: Settings = $state({
+  players: [true, true, true, true, false, false, false, false],
+});
 
 export type GameState = {
   board: Board;
-  currentPlayer: Player;
+  currentPlayer: number;
   firstMove: boolean;
   inAnimation: boolean;
-  alivePlayers: boolean[];
+  alivePlayers: (boolean | null)[];
+  settings: Settings;
 };
 
 export const initialState = (): GameState => ({
   board: Array.from({ length: HEIGHT }, () =>
     Array.from({ length: WIDTH }, () => ({ player: null, dots: 0 })),
   ),
-  currentPlayer: 0,
+  currentPlayer: settings.players.findIndex((enabled) => enabled),
   firstMove: true,
   inAnimation: false,
-  alivePlayers: [true, true, true, true],
+  alivePlayers: settings.players.map((enabled) => (enabled ? true : null)),
+  settings: Object.assign({}, settings),
 });
 
 export const state: GameState = $state(initialState());
 
-const nextPlayer = (player: Player): Player => {
-  let next = (player + 1) % 4;
+const nextPlayer = (player: number): number => {
+  let next = (player + 1) % state.alivePlayers.length;
   while (!state.alivePlayers[next]) {
-    next = (next + 1) % 4;
+    next = (next + 1) % state.alivePlayers.length;
   }
-  return next as Player;
+  return next;
 };
 
 export const processMove = async (x: number, y: number) => {
-  console.log(x, y);
-
   if (state.inAnimation) return;
 
   if (state.firstMove) {
@@ -50,8 +65,9 @@ export const processMove = async (x: number, y: number) => {
         player: state.currentPlayer,
         dots: 3,
       };
-      state.currentPlayer = nextPlayer(state.currentPlayer);
-      if (state.currentPlayer === 0) state.firstMove = false;
+      const next = nextPlayer(state.currentPlayer);
+      if (next <= state.currentPlayer) state.firstMove = false;
+      state.currentPlayer = next;
 
       await waitToAppear(); // wait for the appear animation
       state.inAnimation = false;
@@ -110,7 +126,9 @@ const addDot = async (x: number, y: number) => {
 };
 
 const killPlayers = () => {
-  const alive = [false, false, false, false];
+  const alive: (boolean | null)[] = state.alivePlayers.map((status) =>
+    status === null ? null : false,
+  );
 
   for (const cell of state.board.flat()) {
     if (cell.player !== null) {
@@ -131,3 +149,21 @@ const neighbors = ({ x, y }: Point): Point[] =>
     { x, y: y - 1 },
     { x, y: y + 1 },
   ].filter(({ x, y }) => x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT);
+
+export const restartGame = () => {
+  Object.assign(state, initialState());
+};
+
+export const cancelSettings = () => {
+  Object.assign(settings, state.settings);
+};
+
+export const applySettings = () => {
+  // validate settings
+
+  if (settings.players.every((enabled) => !enabled)) {
+    settings.players[0] = true;
+  }
+
+  restartGame();
+};

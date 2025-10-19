@@ -19,7 +19,7 @@ export type GameState = {
 
 export const initialState = (): GameState => ({
   board: Array.from({ length: HEIGHT }, () =>
-    Array(WIDTH).fill({ player: null, dots: 0 }),
+    Array.from({ length: WIDTH }, () => ({ player: null, dots: 0 })),
   ),
   currentPlayer: 0,
   firstMove: true,

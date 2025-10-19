@@ -5,6 +5,18 @@ export type Cell = { player: number | null; dots: number };
 export type Board = Cell[][];
 export type Point = { x: number; y: number };
 
+export const PLAYER_COLORS = [
+  "#F87171",
+  "#657FFF",
+  "#34D399",
+  "#FFCB4A",
+  "#FF8DD0",
+  "#FF9E4A",
+  "#985DC5",
+  "#50DCF2",
+  "#AC7F5E",
+];
+
 export const PLAYER_NAMES = [
   "Red",
   "Blue",
@@ -13,6 +25,7 @@ export const PLAYER_NAMES = [
   "Pink",
   "Orange",
   "Purple",
+  "Cyan",
   "Brown",
 ];
 
@@ -21,7 +34,7 @@ export type Settings = {
 };
 
 export const settings: Settings = $state({
-  players: [true, true, true, true, false, false, false, false],
+  players: PLAYER_COLORS.map((_, i) => i < 4), // default to 4 players
 });
 
 export type GameState = {

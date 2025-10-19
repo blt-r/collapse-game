@@ -37,6 +37,8 @@ export const settings: Settings = $state({
   players: PLAYER_COLORS.map((_, i) => i < 4), // default to 4 players
 });
 
+let gameId = 0;
+
 export type GameState = {
   board: Board;
   currentPlayer: number;
@@ -68,6 +70,20 @@ const nextPlayer = (player: number): number => {
 };
 
 export const processMove = async (x: number, y: number) => {
+  try {
+    await processMoveInternal(x, y);
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "game reset during animation"
+    ) {
+      return;
+    }
+    throw error;
+  }
+};
+
+const processMoveInternal = async (x: number, y: number) => {
   if (state.inAnimation) return;
 
   if (state.firstMove) {
@@ -82,7 +98,7 @@ export const processMove = async (x: number, y: number) => {
       if (next <= state.currentPlayer) state.firstMove = false;
       state.currentPlayer = next;
 
-      await waitToAppear(); // wait for the appear animation
+      await waitAnimation(75); // wait for the appear animation
       state.inAnimation = false;
     }
 
@@ -98,7 +114,7 @@ const addDot = async (x: number, y: number) => {
   state.inAnimation = true;
 
   state.board[y][x].dots += 1;
-  await waitToAnimate(); // wait for the dot animation
+  await waitAnimation(150); // wait for the dot animation
 
   while (true) {
     const exploded: Point[] = [];
@@ -120,7 +136,7 @@ const addDot = async (x: number, y: number) => {
 
     if (exploded.length === 0) break;
 
-    await waitToAnimate(); // wait for the explode animation
+    await waitAnimation(150); // wait for the explode animation
 
     for (const { x, y } of exploded) {
       for (const { x: nx, y: ny } of neighbors({ x, y })) {
@@ -131,7 +147,7 @@ const addDot = async (x: number, y: number) => {
 
     killPlayers();
 
-    await waitToAnimate(); // wait for the dot animation
+    await waitAnimation(150); // wait for the dot animation
   }
 
   state.inAnimation = false;
@@ -152,8 +168,14 @@ const killPlayers = () => {
   state.alivePlayers = alive;
 };
 
-const waitToAnimate = () => new Promise((resolve) => setTimeout(resolve, 150));
-const waitToAppear = () => new Promise((resolve) => setTimeout(resolve, 75));
+const waitAnimation = async (ms: number) => {
+  const currentGame = gameId;
+  await new Promise((resolve) => setTimeout(resolve, ms));
+  if (gameId != currentGame) {
+    throw new Error("game reset during animation");
+  }
+  return;
+};
 
 const neighbors = ({ x, y }: Point): Point[] =>
   [
@@ -164,6 +186,8 @@ const neighbors = ({ x, y }: Point): Point[] =>
   ].filter(({ x, y }) => x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT);
 
 export const restartGame = () => {
+  gameId++;
+
   Object.assign(state, initialState());
 };
 

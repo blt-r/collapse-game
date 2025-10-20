@@ -9,28 +9,38 @@
   import {
     applySettings,
     cancelSettings,
-    HEIGHT,
     restartGame,
-    WIDTH,
+    game,
   } from "$lib/game.svelte.ts";
   import Button from "$lib/components/Button.svelte";
   import Settings from "$lib/components/Settings.svelte";
+
+  let h = $derived(game.settings.height);
+  let w = $derived(game.settings.width);
 
   let sidebarView: "players" | "settings" = $state("players");
 </script>
 
 <div class="fixed inset-0">
   <main
-    class="@container-[size] relative mx-auto flex aspect-video max-h-dvh overflow-hidden"
+    class="@container-[size] mx-auto grid aspect-video max-h-dvh grid-cols-[1fr_29.6875%] overflow-hidden"
   >
-    <div class="grid grid-cols-10">
-      {#each { length: HEIGHT } as _, y (y)}
-        {#each { length: WIDTH } as _, x (x)}
-          <div class="aspect-square h-[calc(100cqh/8)] p-[.3cqw]">
-            <Cell {x} {y} />
-          </div>
+    <div class="@container-[size] grid size-full place-items-center">
+      <div
+        class="grid"
+        style:grid-template-columns="repeat({w}, minmax(0, 1fr))"
+      >
+        {#each { length: h } as _, y (y)}
+          {#each { length: w } as _, x (x)}
+            <div
+              class="aspect-square p-[.5cqh]"
+              style:height="min(100cqh/{h}, 100cqw/{w})"
+            >
+              <Cell {x} {y} />
+            </div>
+          {/each}
         {/each}
-      {/each}
+      </div>
     </div>
 
     <div class="flex grow flex-col justify-between p-[2.5cqw]">

@@ -1,6 +1,3 @@
-export const WIDTH = 10;
-export const HEIGHT = 8;
-
 export type Cell = { player: number | null; dots: number };
 export type Board = Cell[][];
 export type Point = { x: number; y: number };
@@ -29,12 +26,23 @@ export const PLAYER_NAMES = [
   "Brown",
 ];
 
+export const MIN_WIDTH = 5;
+export const MIN_HEIGHT = 5;
+export const MAX_WIDTH = 16;
+export const MAX_HEIGHT = 12;
+
 export type Settings = {
   players: boolean[];
+  width: number;
+  height: number;
+  borderless: boolean;
 };
 
 export const settings: Settings = $state({
   players: PLAYER_COLORS.map((_, i) => i < 4), // default to 4 players
+  width: 10,
+  height: 8,
+  borderless: false,
 });
 
 let gameId = 0;
@@ -49,8 +57,8 @@ export type GameState = {
 };
 
 export const initialState = (): GameState => ({
-  board: Array.from({ length: HEIGHT }, () =>
-    Array.from({ length: WIDTH }, () => ({ player: null, dots: 0 })),
+  board: Array.from({ length: settings.height }, () =>
+    Array.from({ length: settings.width }, () => ({ player: null, dots: 0 })),
   ),
   currentPlayer: settings.players.findIndex((enabled) => enabled),
   firstMove: true,
@@ -59,12 +67,12 @@ export const initialState = (): GameState => ({
   settings: Object.assign({}, settings),
 });
 
-export const state: GameState = $state(initialState());
+export const game: GameState = $state(initialState());
 
 const nextPlayer = (player: number): number => {
-  let next = (player + 1) % state.alivePlayers.length;
-  while (!state.alivePlayers[next]) {
-    next = (next + 1) % state.alivePlayers.length;
+  let next = (player + 1) % game.alivePlayers.length;
+  while (!game.alivePlayers[next]) {
+    next = (next + 1) % game.alivePlayers.length;
   }
   return next;
 };
@@ -84,50 +92,50 @@ export const processMove = async (x: number, y: number) => {
 };
 
 const processMoveInternal = async (x: number, y: number) => {
-  if (state.inAnimation) return;
+  if (game.inAnimation) return;
 
-  if (state.firstMove) {
-    if (state.board[y][x].player === null) {
-      state.inAnimation = true;
+  if (game.firstMove) {
+    if (game.board[y][x].player === null) {
+      game.inAnimation = true;
 
-      state.board[y][x] = {
-        player: state.currentPlayer,
+      game.board[y][x] = {
+        player: game.currentPlayer,
         dots: 3,
       };
-      const next = nextPlayer(state.currentPlayer);
-      if (next <= state.currentPlayer) state.firstMove = false;
-      state.currentPlayer = next;
+      const next = nextPlayer(game.currentPlayer);
+      if (next <= game.currentPlayer) game.firstMove = false;
+      game.currentPlayer = next;
 
       await waitAnimation(75); // wait for the appear animation
-      state.inAnimation = false;
+      game.inAnimation = false;
     }
 
     return;
   }
 
-  if (state.board[y][x].player === state.currentPlayer) {
+  if (game.board[y][x].player === game.currentPlayer) {
     await addDot(x, y);
   }
 };
 
 const addDot = async (x: number, y: number) => {
-  state.inAnimation = true;
+  game.inAnimation = true;
 
-  state.board[y][x].dots += 1;
+  game.board[y][x].dots += 1;
   await waitAnimation(150); // wait for the dot animation
 
   while (true) {
     const exploded: Point[] = [];
 
-    for (let y = 0; y < HEIGHT; y++) {
-      for (let x = 0; x < WIDTH; x++) {
-        if (state.board[y][x].dots < 4) {
+    for (let y = 0; y < game.settings.height; y++) {
+      for (let x = 0; x < game.settings.width; x++) {
+        if (game.board[y][x].dots < 4) {
           continue;
         }
 
-        state.board[y][x].dots -= 4;
-        if (state.board[y][x].dots === 0) {
-          state.board[y][x].player = null;
+        game.board[y][x].dots -= 4;
+        if (game.board[y][x].dots === 0) {
+          game.board[y][x].player = null;
         }
 
         exploded.push({ x, y });
@@ -140,8 +148,8 @@ const addDot = async (x: number, y: number) => {
 
     for (const { x, y } of exploded) {
       for (const { x: nx, y: ny } of neighbors({ x, y })) {
-        state.board[ny][nx].dots += 1;
-        state.board[ny][nx].player = state.currentPlayer;
+        game.board[ny][nx].dots += 1;
+        game.board[ny][nx].player = game.currentPlayer;
       }
     }
 
@@ -150,22 +158,22 @@ const addDot = async (x: number, y: number) => {
     await waitAnimation(150); // wait for the dot animation
   }
 
-  state.inAnimation = false;
-  state.currentPlayer = nextPlayer(state.currentPlayer);
+  game.inAnimation = false;
+  game.currentPlayer = nextPlayer(game.currentPlayer);
 };
 
 const killPlayers = () => {
-  const alive: (boolean | null)[] = state.alivePlayers.map((status) =>
+  const alive: (boolean | null)[] = game.alivePlayers.map((status) =>
     status === null ? null : false,
   );
 
-  for (const cell of state.board.flat()) {
+  for (const cell of game.board.flat()) {
     if (cell.player !== null) {
       alive[cell.player] = true;
     }
   }
 
-  state.alivePlayers = alive;
+  game.alivePlayers = alive;
 };
 
 const waitAnimation = async (ms: number) => {
@@ -177,30 +185,46 @@ const waitAnimation = async (ms: number) => {
   return;
 };
 
-const neighbors = ({ x, y }: Point): Point[] =>
-  [
-    { x: x - 1, y },
-    { x: x + 1, y },
-    { x, y: y - 1 },
-    { x, y: y + 1 },
-  ].filter(({ x, y }) => x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT);
+const neighbors = (p: Point): Point[] =>
+  game.settings.borderless
+    ? simpleNeighbors(p).map(({ x, y }) => ({
+        x: (x + game.settings.width) % game.settings.width,
+        y: (y + game.settings.height) % game.settings.height,
+      }))
+    : simpleNeighbors(p).filter(
+        ({ x, y }) =>
+          x >= 0 &&
+          x < game.settings.width &&
+          y >= 0 &&
+          y < game.settings.height,
+      );
+
+const simpleNeighbors = ({ x, y }: Point): Point[] => [
+  { x: x - 1, y },
+  { x: x + 1, y },
+  { x, y: y - 1 },
+  { x, y: y + 1 },
+];
 
 export const restartGame = () => {
   gameId++;
 
-  Object.assign(state, initialState());
+  Object.assign(game, initialState());
 };
 
 export const cancelSettings = () => {
-  Object.assign(settings, state.settings);
+  Object.assign(settings, game.settings);
 };
 
 export const applySettings = () => {
   // validate settings
 
-  if (settings.players.every((enabled) => !enabled)) {
-    settings.players[0] = true;
-  }
+  if (settings.players.every((enabled) => !enabled)) settings.players[0] = true;
+
+  if (settings.width < MIN_WIDTH) settings.width = MIN_WIDTH;
+  if (settings.width > MAX_WIDTH) settings.width = MAX_WIDTH;
+  if (settings.height < MIN_HEIGHT) settings.height = MIN_HEIGHT;
+  if (settings.height > MAX_HEIGHT) settings.height = MAX_HEIGHT;
 
   restartGame();
 };

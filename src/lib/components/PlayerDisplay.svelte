@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { PLAYER_COLORS, PLAYER_NAMES, state } from "$lib/game.svelte.ts";
+  import { PLAYER_COLORS, PLAYER_NAMES, game } from "$lib/game.svelte.ts";
 
   const enabledPlayers: [boolean, number][] = $derived(
-    state.alivePlayers.flatMap((status, p) =>
+    game.alivePlayers.flatMap((status, p) =>
       status === null ? [] : [[status, p]],
     ),
   );
@@ -24,7 +24,7 @@
       class={[
         "rounded-[1cqw] font-bold outline-[.5cqw] transition-colors duration-150",
         !alive && "opacity-25",
-        state.currentPlayer === p && !state.inAnimation
+        game.currentPlayer === p && !game.inAnimation
           ? "outline-indigo-800"
           : "outline-transparent",
       ]}

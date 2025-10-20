@@ -1,12 +1,30 @@
 <script lang="ts">
   import Pebble from "$lib/components/Pebble.svelte";
-  import { PLAYER_NAMES, settings } from "$lib/game.svelte.ts";
+  import XIcon from "@lucide/svelte/icons/x";
+  import PlayIcon from "@lucide/svelte/icons/play";
+  import {
+    MAX_HEIGHT,
+    MAX_WIDTH,
+    MIN_HEIGHT,
+    MIN_WIDTH,
+    PLAYER_NAMES,
+    settings,
+  } from "$lib/game.svelte.ts";
+
+  let can_dec_width = $derived(settings.width > MIN_WIDTH);
+  let can_inc_width = $derived(settings.width < MAX_WIDTH);
+  let can_dec_height = $derived(settings.height > MIN_HEIGHT);
+  let can_inc_height = $derived(settings.height < MAX_HEIGHT);
+
+  const dec_width = () => can_dec_width && settings.width--;
+  const inc_width = () => can_inc_width && settings.width++;
+  const dec_height = () => can_dec_height && settings.height--;
+  const inc_height = () => can_inc_height && settings.height++;
 </script>
 
-<div>
-  <span class="text-[2.5cqw]">Select Players:</span>
-
-  <div class="mt-[1cqw] grid grid-cols-3 gap-[.5cqw]">
+<div class="text-[2.3cqw]">
+  <p>Select Players:</p>
+  <div class="mx-[2cqw] grid grid-cols-3 gap-[.5cqw]">
     {#each settings.players as _, p (p)}
       <label
         class={[
@@ -24,4 +42,56 @@
       </label>
     {/each}
   </div>
+
+  <p class="mt-[.8cqw]">Board Size:</p>
+  <div class="flex items-center">
+    <button
+      aria-label="Increase"
+      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      disabled={!can_dec_width}
+      onclick={dec_width}
+    >
+      <PlayIcon class="size-[2cqw] rotate-180" />
+    </button>
+    <span class="w-[4cqw] text-center">{settings.width}</span>
+    <button
+      aria-label="Decrease"
+      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      disabled={!can_inc_width}
+      onclick={inc_width}
+    >
+      <PlayIcon class="size-[2cqw]" />
+    </button>
+    <XIcon class="inline size-[2cqw]" />
+    <button
+      aria-label="Increase"
+      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      disabled={!can_dec_height}
+      onclick={dec_height}
+    >
+      <PlayIcon class="size-[2cqw] rotate-180" />
+    </button>
+    <span class="w-[4cqw] text-center">{settings.height}</span>
+    <button
+      aria-label="Decrease"
+      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      disabled={!can_inc_height}
+      onclick={inc_height}
+    >
+      <PlayIcon class="size-[2cqw]" />
+    </button>
+  </div>
+
+  <p class="mt-[.8cqw]">Borderless Mode:</p>
+  <label
+    class="flex w-fit cursor-pointer items-center gap-[1cqw] select-none"
+    aria-label="Enable Borderless Mode"
+  >
+    <input
+      type="checkbox"
+      bind:checked={settings.borderless}
+      class="size-[2.5cqw]"
+    />
+    Enable
+  </label>
 </div>

@@ -21,9 +21,9 @@
   let sidebarView: "players" | "settings" = $state("players");
 </script>
 
-<div class="fixed inset-0">
+<div class="grid h-full place-items-center">
   <main
-    class="@container-[size] mx-auto grid aspect-video max-h-dvh grid-cols-[1fr_29.6875%] overflow-hidden"
+    class="@container-[size] grid aspect-[16/9] h-[min(100dvh,100dvw/16*9)] grid-cols-[1fr_29.6875%] overflow-hidden"
   >
     <div class="@container-[size] grid size-full place-items-center">
       <div
@@ -96,3 +96,12 @@
     </div>
   </main>
 </div>
+
+<style>
+  :global {
+    html,
+    body {
+      height: 100%;
+    }
+  }
+</style>

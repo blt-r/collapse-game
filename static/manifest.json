@@ -9,17 +9,8 @@
   "orientation": "landscape",
   "icons": [
     {
-      "src": "collapse-game.svg",
+      "src": "logo.svg",
       "sizes": "any"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "screenshot.webp",
-      "sizes": "1001x568",
-      "type": "image/webp",
-      "platform": "",
-      "label": "A game in progress"
     }
   ]
 }

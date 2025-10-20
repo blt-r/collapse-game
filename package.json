@@ -11,9 +11,13 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "format": "prettier --write .",
-    "lint": "prettier --check . && eslint ."
+    "lint": "prettier --check . && eslint .",
+    "android:sync": "cap sync android",
+    "android:assets": "capacitor-assets generate --assetPath static --android"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.4.3",
     "@eslint/compat": "^1.4.0",
     "@eslint/js": "^9.36.0",
     "@sveltejs/adapter-auto": "^6.1.0",
@@ -37,6 +41,8 @@
     "vite": "^7.1.7"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
     "@lucide/svelte": "^0.546.0"
   }
 }

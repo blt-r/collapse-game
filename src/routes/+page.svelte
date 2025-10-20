@@ -14,11 +14,14 @@
   } from "$lib/game.svelte.ts";
   import Button from "$lib/components/Button.svelte";
   import Settings from "$lib/components/Settings.svelte";
+  import { Capacitor } from "@capacitor/core";
 
   let h = $derived(game.settings.height);
   let w = $derived(game.settings.width);
 
   let sidebarView: "players" | "settings" = $state("players");
+
+  const isWeb = Capacitor.getPlatform() === "web";
 </script>
 
 <div class="grid h-full place-items-center">
@@ -52,7 +55,13 @@
         <Settings />
       </div>
 
-      <div class="flex justify-between">
+      <div
+        class={[
+          "flex",
+          isWeb ? "justify-between" : "justify-end",
+          "gap-[1.5cqw]",
+        ]}
+      >
         <Button
           aria-label="Settings"
           class={[sidebarView === "settings" && "hidden"]}
@@ -91,7 +100,9 @@
           <XIcon size="100%" />
         </Button>
 
-        <FullscreenButton />
+        {#if isWeb}
+          <FullscreenButton />
+        {/if}
       </div>
     </div>
   </main>

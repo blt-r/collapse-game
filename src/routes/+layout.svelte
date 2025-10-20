@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <link rel="icon" href="collapse-game.svg" />
+  <link rel="icon" href="logo.svg" />
   <link rel="manifest" href="manifest.json" />
   <title>Collapse</title>
 </svelte:head>

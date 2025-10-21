@@ -14,7 +14,7 @@ const CACHE = `cache-${version}`;
 
 const ASSETS = [
   ...build, // the app itself
-  ...files, // everything in `static`
+  ...files.filter((f) => f != "/_redirects"), // everything in `static`
   "/",
 ];
 

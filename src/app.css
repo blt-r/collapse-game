@@ -3,3 +3,8 @@
 :root {
   accent-color: #34d399;
 }
+
+html,
+body {
+  height: 100%;
+}

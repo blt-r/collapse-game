@@ -15,6 +15,7 @@
   import Button from "./Button.svelte";
   import Settings from "./Settings.svelte";
   import { Capacitor } from "@capacitor/core";
+  import { fade, fly, slide } from "svelte/transition";
 
   let h = $derived(game.settings.height);
   let w = $derived(game.settings.width);
@@ -46,13 +47,17 @@
       </div>
     </div>
 
-    <div class="flex grow flex-col justify-between p-[2.5cqw]">
-      <div class={[sidebarView === "players" || "hidden"]}>
-        <PlayerDisplay />
-      </div>
-
-      <div class={[sidebarView === "settings" || "hidden"]}>
-        <Settings />
+    <div class="flex flex-col p-[2.5cqw]">
+      <div class="relative grow">
+        {#if sidebarView === "players"}
+          <div class="absolute size-full" transition:fade={{ duration: 150 }}>
+            <PlayerDisplay />
+          </div>
+        {:else if sidebarView === "settings"}
+          <div class="absolute size-full" transition:fade={{ duration: 150 }}>
+            <Settings />
+          </div>
+        {/if}
       </div>
 
       <div
@@ -62,43 +67,38 @@
           "gap-[1.5cqw]",
         ]}
       >
-        <Button
-          aria-label="Settings"
-          class={[sidebarView === "settings" && "hidden"]}
-          onclick={() => (sidebarView = "settings")}
-        >
-          <SettingsIcon size="100%" />
-        </Button>
+        {#if sidebarView === "players"}
+          <Button
+            aria-label="Settings"
+            onclick={() => (sidebarView = "settings")}
+          >
+            <SettingsIcon size="100%" />
+          </Button>
 
-        <Button
-          aria-label="Restart Game"
-          class={[sidebarView === "settings" && "hidden"]}
-          onclick={restartGame}
-        >
-          <RotateCcwIcon size="100%" />
-        </Button>
+          <Button aria-label="Restart Game" onclick={restartGame}>
+            <RotateCcwIcon size="100%" />
+          </Button>
+        {:else if sidebarView === "settings"}
+          <Button
+            aria-label="Apply Settings"
+            onclick={() => {
+              sidebarView = "players";
+              applySettings();
+            }}
+          >
+            <CheckIcon size="100%" />
+          </Button>
 
-        <Button
-          aria-label="Apply Settings"
-          class={[sidebarView !== "settings" && "hidden"]}
-          onclick={() => {
-            sidebarView = "players";
-            applySettings();
-          }}
-        >
-          <CheckIcon size="100%" />
-        </Button>
-
-        <Button
-          aria-label="Cancel Settings"
-          class={[sidebarView !== "settings" && "hidden"]}
-          onclick={() => {
-            sidebarView = "players";
-            cancelSettings();
-          }}
-        >
-          <XIcon size="100%" />
-        </Button>
+          <Button
+            aria-label="Cancel Settings"
+            onclick={() => {
+              sidebarView = "players";
+              cancelSettings();
+            }}
+          >
+            <XIcon size="100%" />
+          </Button>
+        {/if}
 
         {#if isWeb}
           <FullscreenButton />
@@ -107,12 +107,3 @@
     </div>
   </main>
 </div>
-
-<style>
-  :global {
-    html,
-    body {
-      height: 100%;
-    }
-  }
-</style>

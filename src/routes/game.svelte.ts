@@ -221,6 +221,10 @@ export const applySettings = () => {
 
   if (settings.players.every((enabled) => !enabled)) settings.players[0] = true;
 
+  if (settings.width < settings.height) {
+    [settings.width, settings.height] = [settings.height, settings.width];
+  }
+
   if (settings.width < MIN_WIDTH) settings.width = MIN_WIDTH;
   if (settings.width > MAX_WIDTH) settings.width = MAX_WIDTH;
   if (settings.height < MIN_HEIGHT) settings.height = MIN_HEIGHT;

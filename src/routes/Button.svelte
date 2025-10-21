@@ -14,8 +14,7 @@
   class={[
     "block cursor-pointer bg-gray-200",
     "disabled:cursor-default disabled:opacity-30",
-    "active:enabled:scale-95 active:enabled:bg-gray-300",
-    "transition-[opacity,background-color,transform] duration-150",
+    "transition-colors duration-150",
     cls,
   ]}
 >

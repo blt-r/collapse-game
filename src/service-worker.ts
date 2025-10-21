@@ -23,8 +23,6 @@ self.addEventListener("install", (event) => {
   const addFilesToCache = async () => {
     const cache = await caches.open(CACHE);
     await cache.addAll(ASSETS);
-
-    console.log("precached assets", ASSETS);
   };
 
   event.waitUntil(addFilesToCache());

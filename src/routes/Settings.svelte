@@ -10,6 +10,7 @@
     PLAYER_NAMES,
     settings,
   } from "./game.svelte.ts";
+  import Button from "./Button.svelte";
 
   let can_dec_width = $derived(settings.width > MIN_WIDTH);
   let can_inc_width = $derived(settings.width < MAX_WIDTH);
@@ -45,41 +46,41 @@
 
   <p class="mt-[.8cqw]">Board Size:</p>
   <div class="flex items-center">
-    <button
+    <Button
       aria-label="Increase"
-      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      class="rounded-[.7cqw] p-[.75cqw]"
       disabled={!can_dec_width}
       onclick={dec_width}
     >
-      <PlayIcon class="size-[2cqw] rotate-180" />
-    </button>
+      <PlayIcon class="size-[2.1cqw] rotate-180" />
+    </Button>
     <span class="w-[4cqw] text-center">{settings.width}</span>
-    <button
+    <Button
       aria-label="Decrease"
-      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      class="rounded-[.7cqw] p-[.75cqw]"
       disabled={!can_inc_width}
       onclick={inc_width}
     >
-      <PlayIcon class="size-[2cqw]" />
-    </button>
-    <XIcon class="inline size-[2cqw]" />
-    <button
+      <PlayIcon class="size-[2.1cqw]" />
+    </Button>
+    <XIcon class="inline size-[2.1cqw]" />
+    <Button
       aria-label="Increase"
-      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      class="rounded-[.7cqw] p-[.75cqw]"
       disabled={!can_dec_height}
       onclick={dec_height}
     >
-      <PlayIcon class="size-[2cqw] rotate-180" />
-    </button>
+      <PlayIcon class="size-[2.1cqw] rotate-180" />
+    </Button>
     <span class="w-[4cqw] text-center">{settings.height}</span>
-    <button
+    <Button
       aria-label="Decrease"
-      class="cursor-pointer rounded-[.7cqw] bg-gray-200 p-[.75cqw] disabled:cursor-default disabled:opacity-30"
+      class="rounded-[.7cqw] p-[.75cqw]"
       disabled={!can_inc_height}
       onclick={inc_height}
     >
-      <PlayIcon class="size-[2cqw]" />
-    </button>
+      <PlayIcon class="size-[2.1cqw]" />
+    </Button>
   </div>
 
   <p class="mt-[.8cqw]">Borderless Mode:</p>

@@ -62,25 +62,30 @@
 
       <div
         class={[
-          "flex",
+          "flex h-[6.5cqw] gap-[2.5cqw]",
           isWeb ? "justify-between" : "justify-end",
-          "gap-[1.5cqw]",
         ]}
       >
         {#if sidebarView === "players"}
           <Button
             aria-label="Settings"
+            class="rounded-[1cqw] p-[1.2cqw]"
             onclick={() => (sidebarView = "settings")}
           >
             <SettingsIcon size="100%" />
           </Button>
 
-          <Button aria-label="Restart Game" onclick={restartGame}>
+          <Button
+            aria-label="Restart Game"
+            class="rounded-[1cqw] p-[1.2cqw]"
+            onclick={restartGame}
+          >
             <RotateCcwIcon size="100%" />
           </Button>
         {:else if sidebarView === "settings"}
           <Button
             aria-label="Apply Settings"
+            class="rounded-[1cqw] p-[1.2cqw]"
             onclick={() => {
               sidebarView = "players";
               applySettings();
@@ -91,6 +96,7 @@
 
           <Button
             aria-label="Cancel Settings"
+            class="rounded-[1cqw] p-[1.2cqw]"
             onclick={() => {
               sidebarView = "players";
               cancelSettings();

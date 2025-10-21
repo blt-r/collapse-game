@@ -12,7 +12,10 @@
 <button
   {...rest}
   class={[
-    "block size-[6.5cqw] cursor-pointer rounded-[1cqw] bg-gray-200 p-[1.2cqw]",
+    "block cursor-pointer bg-gray-200",
+    "disabled:cursor-default disabled:opacity-30",
+    "active:enabled:scale-95 active:enabled:bg-gray-300",
+    "transition-[opacity,background-color,transform] duration-150",
     cls,
   ]}
 >

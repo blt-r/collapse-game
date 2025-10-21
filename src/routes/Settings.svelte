@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Pebble from "$lib/components/Pebble.svelte";
+  import Pebble from "./Pebble.svelte";
   import XIcon from "@lucide/svelte/icons/x";
   import PlayIcon from "@lucide/svelte/icons/play";
   import {
@@ -9,7 +9,7 @@
     MIN_WIDTH,
     PLAYER_NAMES,
     settings,
-  } from "$lib/game.svelte.ts";
+  } from "./game.svelte.ts";
 
   let can_dec_width = $derived(settings.width > MIN_WIDTH);
   let can_inc_width = $derived(settings.width < MAX_WIDTH);

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { processMove, game } from "$lib/game.svelte.ts";
-  import Pebble from "$lib/components/Pebble.svelte";
+  import { processMove, game } from "./game.svelte.ts";
+  import Pebble from "./Pebble.svelte";
 
   let { x, y }: { x: number; y: number } = $props();
   let cell = $derived(game.board[y][x]);

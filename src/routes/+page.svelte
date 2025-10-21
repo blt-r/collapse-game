@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Cell from "$lib/components/Cell.svelte";
-  import FullscreenButton from "$lib/components/FullscreenButton.svelte";
-  import PlayerDisplay from "$lib/components/PlayerDisplay.svelte";
+  import Cell from "./Cell.svelte";
+  import FullscreenButton from "./FullscreenButton.svelte";
+  import PlayerDisplay from "./PlayerDisplay.svelte";
   import RotateCcwIcon from "@lucide/svelte/icons/rotate-ccw";
   import SettingsIcon from "@lucide/svelte/icons/settings";
   import CheckIcon from "@lucide/svelte/icons/check";
@@ -11,9 +11,9 @@
     cancelSettings,
     restartGame,
     game,
-  } from "$lib/game.svelte.ts";
-  import Button from "$lib/components/Button.svelte";
-  import Settings from "$lib/components/Settings.svelte";
+  } from "./game.svelte.ts";
+  import Button from "./Button.svelte";
+  import Settings from "./Settings.svelte";
   import { Capacitor } from "@capacitor/core";
 
   let h = $derived(game.settings.height);

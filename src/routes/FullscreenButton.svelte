@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Button from "$lib/components/Button.svelte";
+  import Button from "./Button.svelte";
   import ExpandIcon from "@lucide/svelte/icons/expand";
   import ShrinkIcon from "@lucide/svelte/icons/shrink";
 

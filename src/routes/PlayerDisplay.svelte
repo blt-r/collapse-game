@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PLAYER_COLORS, PLAYER_NAMES, game } from "$lib/game.svelte.ts";
+  import { PLAYER_COLORS, PLAYER_NAMES, game } from "./game.svelte.ts";
 
   const enabledPlayers: [boolean, number][] = $derived(
     game.alivePlayers.flatMap((status, p) =>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PLAYER_COLORS } from "$lib/game.svelte";
+  import { PLAYER_COLORS } from "./game.svelte";
   import { fade } from "svelte/transition";
 
   const { player, dots }: { player: number; dots: number } = $props();

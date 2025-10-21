@@ -1,0 +1,63 @@
+/// <reference no-default-lib="true"/>
+/// <reference lib="esnext" />
+/// <reference lib="webworker" />
+/// <reference types="@sveltejs/kit" />
+/// <reference types="../.svelte-kit/ambient.d.ts" />
+
+import { build, files, version } from "$service-worker";
+
+// This gives `self` the correct types
+const self = globalThis.self as unknown as ServiceWorkerGlobalScope;
+
+// Create a unique cache name for this deployment
+const CACHE = `cache-${version}`;
+
+const ASSETS = [
+  ...build, // the app itself
+  ...files, // everything in `static`
+  "/",
+];
+
+self.addEventListener("install", (event) => {
+  // Create a new cache and add all files to it
+  const addFilesToCache = async () => {
+    const cache = await caches.open(CACHE);
+    await cache.addAll(ASSETS);
+
+    console.log("precached assets", ASSETS);
+  };
+
+  event.waitUntil(addFilesToCache());
+});
+
+self.addEventListener("activate", (event) => {
+  // Remove previous cached data from disk
+  const deleteOldCaches = async () => {
+    for (const key of await caches.keys()) {
+      if (key !== CACHE) await caches.delete(key);
+    }
+  };
+
+  event.waitUntil(deleteOldCaches());
+});
+
+self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+
+  if (event.request.method !== "GET") return;
+  if (!ASSETS.includes(url.pathname)) return;
+
+  const respond = async () => {
+    const cache = await caches.open(CACHE);
+
+    const response = await cache.match(url.pathname);
+
+    if (!response) {
+      throw new Error("missing cache entry for " + url.pathname);
+    }
+
+    return response;
+  };
+
+  event.respondWith(respond());
+});

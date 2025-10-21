@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Cell from "./Cell.svelte";
   import FullscreenButton from "./FullscreenButton.svelte";
   import PlayerDisplay from "./PlayerDisplay.svelte";
   import RotateCcwIcon from "@lucide/svelte/icons/rotate-ccw";
@@ -11,11 +10,13 @@
     cancelSettings,
     restartGame,
     game,
+    processMove,
   } from "./game.svelte.ts";
   import Button from "./Button.svelte";
   import Settings from "./Settings.svelte";
   import { Capacitor } from "@capacitor/core";
   import { fade, fly, slide } from "svelte/transition";
+  import Pebble from "./Pebble.svelte";
 
   let h = $derived(game.settings.height);
   let w = $derived(game.settings.width);
@@ -40,7 +41,17 @@
               class="aspect-square p-[.5cqh]"
               style:height="min(100cqh/{h}, 100cqw/{w})"
             >
-              <Cell {x} {y} />
+              <button
+                class="grid size-full rounded-[17.5%] bg-gray-100"
+                onclick={() => processMove(x, y)}
+              >
+                {#if game.board[y][x].player !== null}
+                  <Pebble
+                    player={game.board[y][x].player}
+                    dots={game.board[y][x].dots}
+                  />
+                {/if}
+              </button>
             </div>
           {/each}
         {/each}

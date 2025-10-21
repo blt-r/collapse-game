@@ -29,7 +29,7 @@
     {#each settings.players as _, p (p)}
       <label
         class={[
-          "block aspect-square cursor-pointer rounded-[1cqw] p-[.5cqw] transition-colors delay-10 duration-150",
+          "block aspect-square cursor-pointer rounded-[17.5%] transition-colors delay-10 duration-150",
           settings.players[p] ? "bg-green-200" : "bg-gray-100 [&>*]:opacity-25",
         ]}
         aria-label="Enable {PLAYER_NAMES[p]} Player"

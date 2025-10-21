@@ -6,7 +6,10 @@
 </script>
 
 <div
-  class={["size-full rounded-[100dvh] transition-colors duration-150", "Dots"]}
+  class={[
+    "inset-[10%] size-[80%] rounded-[100dvh] transition-colors duration-150",
+    "Dots",
+  ]}
   style:background-color={PLAYER_COLORS[player]}
   data-dots={dots}
   transition:fade={{ duration: 75 }}

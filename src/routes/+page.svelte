@@ -28,7 +28,7 @@
 
 <div class="grid h-full place-items-center">
   <main
-    class="@container-[size] grid aspect-[16/9] h-[min(100dvh,100dvw/16*9)] grid-cols-[1fr_29.6875%] overflow-hidden"
+    class="@container-[size] grid aspect-[16/9] h-[min(100dvh,100dvw/16*9)] grid-cols-[1fr_29.6875%] overflow-hidden [&_*]:select-none"
   >
     <div class="@container-[size] grid size-full place-items-center">
       <div

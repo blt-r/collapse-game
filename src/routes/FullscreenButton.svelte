@@ -10,7 +10,7 @@
     if (isFullscreen) {
       document.exitFullscreen();
     } else {
-      document.documentElement.requestFullscreen({ navigationUI: "show" });
+      document.documentElement.requestFullscreen({ navigationUI: "hide" });
     }
   };
 </script>

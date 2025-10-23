@@ -52,7 +52,9 @@ export type GameState = {
   currentPlayer: number;
   firstMove: boolean;
   inAnimation: boolean;
-  alivePlayers: (boolean | null)[];
+  alivePlayers: boolean[];
+  /** Array of dead players, ordered by how long they stayed alive */
+  playerDeaths: number[];
   settings: Settings;
 };
 
@@ -63,7 +65,8 @@ export const initialState = (): GameState => ({
   currentPlayer: settings.players.findIndex((enabled) => enabled),
   firstMove: true,
   inAnimation: false,
-  alivePlayers: settings.players.map((enabled) => (enabled ? true : null)),
+  alivePlayers: settings.players.slice(),
+  playerDeaths: [],
   settings: Object.assign({}, settings),
 });
 
@@ -163,9 +166,7 @@ const addDot = async (x: number, y: number) => {
 };
 
 const killPlayers = () => {
-  const alive: (boolean | null)[] = game.alivePlayers.map((status) =>
-    status === null ? null : false,
-  );
+  const alive: boolean[] = game.settings.players.map(() => false);
 
   for (const cell of game.board.flat()) {
     if (cell.player !== null) {
@@ -173,7 +174,18 @@ const killPlayers = () => {
     }
   }
 
-  game.alivePlayers = alive;
+  const newDeaths: number[] = [];
+
+  for (let p = 0; p < alive.length; p++) {
+    if (game.alivePlayers[p] && !alive[p]) {
+      newDeaths.push(p);
+    }
+  }
+
+  if (newDeaths.length > 0) {
+    game.alivePlayers = alive;
+    game.playerDeaths = [...newDeaths, ...game.playerDeaths];
+  }
 };
 
 const waitAnimation = async (ms: number) => {

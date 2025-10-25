@@ -14,16 +14,16 @@
   } from "./game.svelte.ts";
   import Button from "./Button.svelte";
   import Settings from "./Settings.svelte";
-  import { Capacitor } from "@capacitor/core";
   import { fade, fly, slide } from "svelte/transition";
   import Pebble from "./Pebble.svelte";
+  import { getPlatform } from "$lib/getPlatform.ts";
 
   let h = $derived(game.settings.height);
   let w = $derived(game.settings.width);
 
   let sidebarView: "players" | "settings" = $state("players");
 
-  const isWeb = Capacitor.getPlatform() === "web";
+  const isWeb = getPlatform() === "web";
 </script>
 
 <div class="grid h-full place-items-center">

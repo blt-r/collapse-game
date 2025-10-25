@@ -14,7 +14,7 @@
   } from "./game.svelte.ts";
   import Button from "./Button.svelte";
   import Settings from "./Settings.svelte";
-  import { fade, fly, slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import Pebble from "./Pebble.svelte";
   import { getPlatform } from "$lib/getPlatform.ts";
 
@@ -28,7 +28,7 @@
 
 <div class="grid h-full place-items-center">
   <main
-    class="@container-[size] grid aspect-[16/9] h-[min(100dvh,100dvw/16*9)] grid-cols-[1fr_29.6875%] overflow-hidden [&_*]:select-none"
+    class="@container-[size] grid aspect-[16/9] h-[min(100dvh,100dvw/16*9)] grid-cols-[1fr_29.6875%] overflow-hidden **:select-none"
   >
     <div class="@container-[size] grid size-full place-items-center">
       <div

@@ -16,6 +16,7 @@
     "android:assets": "capacitor-assets generate --assetPath static --android"
   },
   "devDependencies": {
+    "@capacitor/android": "^7.4.4",
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^7.4.4",
     "@eslint/compat": "^1.4.0",

@@ -1,6 +1,7 @@
 <script lang="ts">
   import Pebble from "./Pebble.svelte";
   import XIcon from "@lucide/svelte/icons/x";
+  import CheckIcon from "@lucide/svelte/icons/check";
   import PlayIcon from "@lucide/svelte/icons/play";
   import {
     MAX_HEIGHT,
@@ -27,20 +28,18 @@
   <p>Select Players:</p>
   <div class="mx-[2cqw] grid grid-cols-3 gap-[.5cqw]">
     {#each settings.players as _, p (p)}
-      <label
+      <button
         class={[
-          "block aspect-square cursor-pointer rounded-[17.5%] transition-colors delay-10 duration-150",
+          "grid aspect-square cursor-pointer rounded-[17.5%] transition-colors delay-10 duration-150",
           settings.players[p] ? "bg-green-200" : "bg-gray-100 *:opacity-25",
         ]}
         aria-label="Enable {PLAYER_NAMES[p]} Player"
+        role="checkbox"
+        aria-checked={settings.players[p]}
+        onclick={() => (settings.players[p] = !settings.players[p])}
       >
-        <input
-          type="checkbox"
-          bind:checked={settings.players[p]}
-          class="hidden"
-        />
         <Pebble player={p} dots={settings.players[p] ? 3 : 1} />
-      </label>
+      </button>
     {/each}
   </div>
 
@@ -88,11 +87,19 @@
     class="flex w-fit cursor-pointer items-center gap-[1cqw] select-none"
     aria-label="Enable Borderless Mode"
   >
-    <input
-      type="checkbox"
-      bind:checked={settings.borderless}
-      class="size-[2.5cqw]"
-    />
+    <Button
+      size="small"
+      role="checkbox"
+      aria-checked={settings.borderless}
+      onclick={() => (settings.borderless = !settings.borderless)}
+    >
+      <CheckIcon
+        class={[
+          "scale-125 transition-opacity duration-150",
+          settings.borderless || "opacity-0",
+        ]}
+      />
+    </Button>
     Enable
   </label>
 </div>

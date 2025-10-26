@@ -30,7 +30,7 @@
       <label
         class={[
           "block aspect-square cursor-pointer rounded-[17.5%] transition-colors delay-10 duration-150",
-          settings.players[p] ? "bg-green-200" : "bg-gray-100 [&>*]:opacity-25",
+          settings.players[p] ? "bg-green-200" : "bg-gray-100 *:opacity-25",
         ]}
         aria-label="Enable {PLAYER_NAMES[p]} Player"
       >
@@ -48,38 +48,38 @@
   <div class="flex items-center">
     <Button
       aria-label="Increase"
-      class="rounded-[.7cqw] p-[.75cqw]"
+      size="small"
       disabled={!can_dec_width}
       onclick={dec_width}
     >
-      <PlayIcon class="size-[2.1cqw] rotate-180" />
+      <PlayIcon class="rotate-180" />
     </Button>
     <span class="w-[4cqw] text-center">{settings.width}</span>
     <Button
       aria-label="Decrease"
-      class="rounded-[.7cqw] p-[.75cqw]"
+      size="small"
       disabled={!can_inc_width}
       onclick={inc_width}
     >
-      <PlayIcon class="size-[2.1cqw]" />
+      <PlayIcon />
     </Button>
-    <XIcon class="inline size-[2.1cqw]" />
+    <XIcon class="size-[2.1cqw]" />
     <Button
       aria-label="Increase"
-      class="rounded-[.7cqw] p-[.75cqw]"
+      size="small"
       disabled={!can_dec_height}
       onclick={dec_height}
     >
-      <PlayIcon class="size-[2.1cqw] rotate-180" />
+      <PlayIcon class="rotate-180" />
     </Button>
     <span class="w-[4cqw] text-center">{settings.height}</span>
     <Button
       aria-label="Decrease"
-      class="rounded-[.7cqw] p-[.75cqw]"
+      size="small"
       disabled={!can_inc_height}
       onclick={inc_height}
     >
-      <PlayIcon class="size-[2.1cqw]" />
+      <PlayIcon />
     </Button>
   </div>
 

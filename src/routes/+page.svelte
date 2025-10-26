@@ -72,48 +72,38 @@
       </div>
 
       <div
-        class={[
-          "flex h-[6.5cqw] gap-[2.5cqw]",
-          isWeb ? "justify-between" : "justify-end",
-        ]}
+        class={["flex gap-[2.5cqw]", isWeb ? "justify-between" : "justify-end"]}
       >
         {#if sidebarView === "players"}
           <Button
             aria-label="Settings"
-            class="rounded-[1cqw] p-[1.2cqw]"
             onclick={() => (sidebarView = "settings")}
           >
-            <SettingsIcon size="100%" />
+            <SettingsIcon />
           </Button>
 
-          <Button
-            aria-label="Restart Game"
-            class="rounded-[1cqw] p-[1.2cqw]"
-            onclick={restartGame}
-          >
-            <RotateCcwIcon size="100%" />
+          <Button aria-label="Restart Game" onclick={restartGame}>
+            <RotateCcwIcon />
           </Button>
         {:else if sidebarView === "settings"}
           <Button
             aria-label="Apply Settings"
-            class="rounded-[1cqw] p-[1.2cqw]"
             onclick={() => {
               sidebarView = "players";
               applySettings();
             }}
           >
-            <CheckIcon size="100%" />
+            <CheckIcon />
           </Button>
 
           <Button
             aria-label="Cancel Settings"
-            class="rounded-[1cqw] p-[1.2cqw]"
             onclick={() => {
               sidebarView = "players";
               cancelSettings();
             }}
           >
-            <XIcon size="100%" />
+            <XIcon />
           </Button>
         {/if}
 

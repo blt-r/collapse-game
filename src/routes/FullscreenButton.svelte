@@ -17,14 +17,10 @@
 
 <svelte:document bind:fullscreenElement={fsElement} />
 
-<Button
-  aria-label="Toggle Fullscreen"
-  class="rounded-[1cqw] p-[1.2cqw]"
-  onclick={toggleFullscreen}
->
+<Button aria-label="Toggle Fullscreen" onclick={toggleFullscreen}>
   {#if !isFullscreen}
-    <ExpandIcon size="100%" />
+    <ExpandIcon />
   {:else}
-    <ShrinkIcon size="100%" />
+    <ShrinkIcon />
   {/if}
 </Button>

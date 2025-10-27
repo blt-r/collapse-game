@@ -8,7 +8,7 @@ const config: Config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter({ fallback: "200.html" }),
+    adapter: adapter(),
     serviceWorker: {
       register: false,
     },

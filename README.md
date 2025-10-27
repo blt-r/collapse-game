@@ -14,18 +14,16 @@ Build the project:
 pnpm build
 ```
 
-This will build the website as an SPA and output it to the `build` directory.
+This will build the static website and output it to the `build` directory.
 
 ## Build the android app
 
 After steps above run:
 
 ```sh
-pnpm android:sync
-pnpm android:assets
+pnpm android
 ```
 
-This will copy the build artifacts from `build` to the Android Studio project in
-`android` directory and generate static assets for the android app.
+This will setup sources for the android build of the website in the `android` directory.
 
-Then open the `android` directory in Android Studio and build the app from there.
+Then, open the `android` directory in Android Studio and build the app from there.

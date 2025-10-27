@@ -16,14 +16,13 @@
   import Settings from "./Settings.svelte";
   import { fade } from "svelte/transition";
   import Pebble from "./Pebble.svelte";
-  import { getPlatform } from "$lib/getPlatform.ts";
 
   let h = $derived(game.settings.height);
   let w = $derived(game.settings.width);
 
   let sidebarView: "players" | "settings" = $state("players");
 
-  const isWeb = getPlatform() === "web";
+  const isWeb = import.meta.env.VITE_ANDROID_BUILD === undefined;
 </script>
 
 <div class="grid h-full place-items-center">

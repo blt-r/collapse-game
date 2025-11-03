@@ -1,3 +1,5 @@
+import { popSound } from "$lib/sound.ts";
+
 export type Cell = { player: number | null; dots: number };
 export type Board = Cell[][];
 export type Point = { x: number; y: number };
@@ -109,6 +111,7 @@ const processMoveInternal = async (x: number, y: number) => {
       if (next <= game.currentPlayer) game.firstMove = false;
       game.currentPlayer = next;
 
+      popSound();
       await waitAnimation(75); // wait for the appear animation
       game.inAnimation = false;
     }
@@ -125,6 +128,8 @@ const addDot = async (x: number, y: number) => {
   game.inAnimation = true;
 
   game.board[y][x].dots += 1;
+
+  popSound(); // play the sound once even if no explosion occurs
   await waitAnimation(150); // wait for the dot animation
 
   while (true) {
@@ -147,6 +152,7 @@ const addDot = async (x: number, y: number) => {
 
     if (exploded.length === 0) break;
 
+    popSound();
     await waitAnimation(150); // wait for the explode animation
 
     for (const { x, y } of exploded) {

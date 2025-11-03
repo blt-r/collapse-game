@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import type { HTMLButtonAttributes } from "svelte/elements";
+  import { clickSound } from "$lib/sound.ts";
 
   let {
     children,
     class: cls,
     size = "big",
+    onclick,
     ...rest
   }: {
     children: Snippet;
@@ -15,6 +17,10 @@
 
 <button
   {...rest}
+  onclick={(e) => {
+    clickSound();
+    onclick?.(e);
+  }}
   class={[
     "block cursor-pointer bg-gray-200",
     "disabled:cursor-default disabled:opacity-30",

@@ -12,6 +12,7 @@
     settings,
   } from "./game.svelte.ts";
   import Button from "./Button.svelte";
+  import { clickSound } from "$lib/sound.ts";
 
   let can_dec_width = $derived(settings.width > MIN_WIDTH);
   let can_inc_width = $derived(settings.width < MAX_WIDTH);
@@ -36,7 +37,10 @@
         aria-label="Enable {PLAYER_NAMES[p]} Player"
         role="checkbox"
         aria-checked={settings.players[p]}
-        onclick={() => (settings.players[p] = !settings.players[p])}
+        onclick={() => {
+          clickSound();
+          settings.players[p] = !settings.players[p];
+        }}
       >
         <Pebble player={p} dots={settings.players[p] ? 3 : 1} />
       </button>

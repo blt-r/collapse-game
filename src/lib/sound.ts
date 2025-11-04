@@ -8,9 +8,9 @@ let clickAudio: HTMLAudioElement | null = null;
 
 if (browser) {
   popAudio = new Audio(popSoundPath);
-  popAudio.volume = 0.15;
+  popAudio.volume = 0.2;
   clickAudio = new Audio(clickSoundPath);
-  clickAudio.volume = 0.15;
+  clickAudio.volume = 0.2;
 }
 
 export const popSound = () => {

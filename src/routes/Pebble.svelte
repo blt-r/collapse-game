@@ -1,18 +1,17 @@
 <script lang="ts">
   import { PLAYER_COLORS } from "./game.svelte";
-  import { fade } from "svelte/transition";
 
-  const { player, dots }: { player: number; dots: number } = $props();
+  const { player, dots }: { player: number | null; dots: number } = $props();
 </script>
 
 <div
   class={[
-    "inset-[10%] size-[80%] rounded-[100dvh] transition-colors duration-150",
+    "inset-[10%] size-[80%] rounded-[100dvh] transition-[background-color,opacity] duration-150",
+    player === null && "opacity-0",
     "Dots",
   ]}
-  style:background-color={PLAYER_COLORS[player]}
+  style:background-color={player === null ? "" : PLAYER_COLORS[player]}
   data-dots={dots}
-  transition:fade={{ duration: 75 }}
 >
   <span class="Dot1"></span>
   <span class="Dot2"></span>

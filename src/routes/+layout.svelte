@@ -17,4 +17,10 @@
   <title>Collapse</title>
 </svelte:head>
 
-{@render children?.()}
+<div class="grid h-full place-items-center">
+  <main
+    class="@container-[size] aspect-video h-[min(100dvh,100dvw/16*9)] overflow-hidden **:select-none"
+  >
+    {@render children?.()}
+  </main>
+</div>

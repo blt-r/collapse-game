@@ -20,96 +20,86 @@
   let h = $derived(game.settings.height);
   let w = $derived(game.settings.width);
 
-  let sidebarView: "players" | "settings" = $state("players");
+  let settingsView = $state(false);
+
+  const settings = () => {
+    settingsView = true;
+  };
+
+  const restart = () => {
+    restartGame();
+  };
+
+  const apply = () => {
+    settingsView = false;
+    applySettings();
+  };
+
+  const cancel = () => {
+    settingsView = false;
+    cancelSettings();
+  };
 
   const isWeb = import.meta.env.VITE_ANDROID_BUILD === undefined;
 </script>
 
-<div class="grid h-full place-items-center">
-  <main
-    class="@container-[size] grid aspect-video h-[min(100dvh,100dvw/16*9)] grid-cols-[1fr_29.6875%] overflow-hidden **:select-none"
+<div class="grid h-full grid-cols-[1fr_29.6875%]">
+  <div
+    class="@container-[size] grid size-full place-content-center"
+    style:grid-template-columns="repeat({w}, auto)"
   >
-    <div class="@container-[size] grid size-full place-items-center">
-      <div
-        class="grid"
-        style:grid-template-columns="repeat({w}, minmax(0, 1fr))"
+    {#each { length: h } as _, y (y)}
+      {#each { length: w } as _, x (x)}
+        <button
+          class="m-[.5cqh] grid aspect-square rounded-[17.5%] bg-gray-100"
+          style:height="calc(min(100cqh/{h}, 100cqw/{w}) - 1cqh)"
+          onclick={() => processMove(x, y)}
+        >
+          <Pebble {...game.board[y][x]} />
+        </button>
+      {/each}
+    {/each}
+  </div>
+
+  <div class="grid grid-cols-[1fr] grid-rows-[1fr_auto] p-[2.5cqw]">
+    {#if !settingsView}
+      <div class="col-[1/2] row-[1/2]" transition:fade={{ duration: 150 }}>
+        <PlayerDisplay />
+      </div>
+    {:else}
+      <div class="col-[1/2] row-[1/2]" transition:fade={{ duration: 150 }}>
+        <Settings />
+      </div>
+    {/if}
+
+    <div
+      class={["flex gap-[2.5cqw]", isWeb ? "justify-between" : "justify-end"]}
+    >
+      <Button
+        aria-label={settingsView ? "Apply Settings" : "Settings"}
+        onclick={settingsView ? apply : settings}
       >
-        {#each { length: h } as _, y (y)}
-          {#each { length: w } as _, x (x)}
-            <div
-              class="aspect-square p-[.5cqh]"
-              style:height="min(100cqh/{h}, 100cqw/{w})"
-            >
-              <button
-                class="grid size-full rounded-[17.5%] bg-gray-100"
-                onclick={() => processMove(x, y)}
-              >
-                {#if game.board[y][x].player !== null}
-                  <Pebble
-                    player={game.board[y][x].player}
-                    dots={game.board[y][x].dots}
-                  />
-                {/if}
-              </button>
-            </div>
-          {/each}
-        {/each}
-      </div>
-    </div>
+        <SettingsIcon
+          class={["absolute transition-opacity", settingsView && "opacity-0"]}
+        />
+        <CheckIcon
+          class={["transition-opacity", !settingsView && "opacity-0"]}
+        />
+      </Button>
 
-    <div class="flex flex-col p-[2.5cqw]">
-      <div class="relative grow">
-        {#if sidebarView === "players"}
-          <div class="absolute size-full" transition:fade={{ duration: 150 }}>
-            <PlayerDisplay />
-          </div>
-        {:else if sidebarView === "settings"}
-          <div class="absolute size-full" transition:fade={{ duration: 150 }}>
-            <Settings />
-          </div>
-        {/if}
-      </div>
-
-      <div
-        class={["flex gap-[2.5cqw]", isWeb ? "justify-between" : "justify-end"]}
+      <Button
+        aria-label={settingsView ? "Cancel Settings" : "Restart"}
+        onclick={settingsView ? cancel : restart}
       >
-        {#if sidebarView === "players"}
-          <Button
-            aria-label="Settings"
-            onclick={() => (sidebarView = "settings")}
-          >
-            <SettingsIcon />
-          </Button>
+        <RotateCcwIcon
+          class={["absolute transition-opacity", settingsView && "opacity-0"]}
+        />
+        <XIcon class={["transition-opacity", !settingsView && "opacity-0"]} />
+      </Button>
 
-          <Button aria-label="Restart Game" onclick={restartGame}>
-            <RotateCcwIcon />
-          </Button>
-        {:else if sidebarView === "settings"}
-          <Button
-            aria-label="Apply Settings"
-            onclick={() => {
-              sidebarView = "players";
-              applySettings();
-            }}
-          >
-            <CheckIcon />
-          </Button>
-
-          <Button
-            aria-label="Cancel Settings"
-            onclick={() => {
-              sidebarView = "players";
-              cancelSettings();
-            }}
-          >
-            <XIcon />
-          </Button>
-        {/if}
-
-        {#if isWeb}
-          <FullscreenButton />
-        {/if}
-      </div>
+      {#if isWeb}
+        <FullscreenButton />
+      {/if}
     </div>
-  </main>
+  </div>
 </div>

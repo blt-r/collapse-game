@@ -63,11 +63,11 @@
 
   <div class="grid grid-cols-[1fr] grid-rows-[1fr_auto] p-12">
     {#if !settingsView}
-      <div class="col-[1/2] row-[1/2]" transition:fade={{ duration: 150 }}>
+      <div class="col-1 row-1" transition:fade={{ duration: 150 }}>
         <PlayerDisplay />
       </div>
     {:else}
-      <div class="col-[1/2] row-[1/2]" transition:fade={{ duration: 150 }}>
+      <div class="col-1 row-1" transition:fade={{ duration: 150 }}>
         <Settings />
       </div>
     {/if}

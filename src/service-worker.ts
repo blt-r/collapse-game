@@ -3,8 +3,7 @@
 /// <reference lib="webworker" />
 /// <reference types="@sveltejs/kit" />
 /// <reference types="../.svelte-kit/ambient.d.ts" />
-
-import { build, files, version } from "$service-worker";
+import { build, files, version, base } from "$service-worker";
 
 // This gives `self` the correct types
 const self = globalThis.self as unknown as ServiceWorkerGlobalScope;
@@ -15,7 +14,7 @@ const CACHE = `cache-${version}`;
 const ASSETS = [
   ...build, // the app itself
   ...files, // everything in `static`
-  "/",
+  `${base}/`, // the root path
 ];
 
 self.addEventListener("install", (event) => {

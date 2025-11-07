@@ -1,6 +1,6 @@
 import adapter from "@sveltejs/adapter-static";
-import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { type Config } from "@sveltejs/kit";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 const configWeb: Config = {
   preprocess: vitePreprocess(),

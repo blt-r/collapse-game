@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { flip } from "svelte/animate";
   import { PLAYER_COLORS, PLAYER_NAMES, game } from "./game.svelte.ts";
+  import { flip } from "svelte/animate";
 
   const players = $derived([
     ...game.alivePlayers.flatMap((alive, p) => (alive ? [{ alive, p }] : [])),

@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { clickSound } from "$lib/sound.ts";
   import type { Snippet } from "svelte";
   import type { HTMLButtonAttributes } from "svelte/elements";
-  import { clickSound } from "$lib/sound.ts";
 
   let {
     children,

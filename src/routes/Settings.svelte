@@ -1,8 +1,7 @@
 <script lang="ts">
+  import { clickSound } from "$lib/sound.ts";
+  import Button from "./Button.svelte";
   import Pebble from "./Pebble.svelte";
-  import XIcon from "@lucide/svelte/icons/x";
-  import CheckIcon from "@lucide/svelte/icons/check";
-  import PlayIcon from "@lucide/svelte/icons/play";
   import {
     MAX_HEIGHT,
     MAX_WIDTH,
@@ -11,8 +10,9 @@
     PLAYER_NAMES,
     settings,
   } from "./game.svelte.ts";
-  import Button from "./Button.svelte";
-  import { clickSound } from "$lib/sound.ts";
+  import CheckIcon from "@lucide/svelte/icons/check";
+  import PlayIcon from "@lucide/svelte/icons/play";
+  import XIcon from "@lucide/svelte/icons/x";
 
   let can_dec_width = $derived(settings.width > MIN_WIDTH);
   let can_inc_width = $derived(settings.width < MAX_WIDTH);

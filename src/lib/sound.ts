@@ -1,7 +1,6 @@
-import popSoundPath from "$lib/assets/pop.mp3";
-import clickSoundPath from "$lib/assets/click.mp3";
-
 import { browser } from "$app/environment";
+import clickSoundPath from "$lib/assets/click.mp3";
+import popSoundPath from "$lib/assets/pop.mp3";
 
 let popAudio: HTMLAudioElement | null = null;
 let clickAudio: HTMLAudioElement | null = null;

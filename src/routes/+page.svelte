@@ -51,8 +51,8 @@
     {#each { length: h } as _, y (y)}
       {#each { length: w } as _, x (x)}
         <button
-          class="m-[.5cqh] grid aspect-square rounded-[17.5%] bg-gray-100"
-          style:height="calc(min(100cqh/{h}, 100cqw/{w}) - 1cqh)"
+          class="m-1.25 grid aspect-square rounded-[17.5%] bg-gray-100"
+          style:height="calc(min(100cqh/{h}, 100cqw/{w}) - var(--spacing)*2.5)"
           onclick={() => processMove(x, y)}
         >
           <Pebble {...game.board[y][x]} />
@@ -61,7 +61,7 @@
     {/each}
   </div>
 
-  <div class="grid grid-cols-[1fr] grid-rows-[1fr_auto] p-[2.5cqw]">
+  <div class="grid grid-cols-[1fr] grid-rows-[1fr_auto] p-12">
     {#if !settingsView}
       <div class="col-[1/2] row-[1/2]" transition:fade={{ duration: 150 }}>
         <PlayerDisplay />
@@ -72,9 +72,7 @@
       </div>
     {/if}
 
-    <div
-      class={["flex gap-[2.5cqw]", isWeb ? "justify-between" : "justify-end"]}
-    >
+    <div class={["flex gap-12", isWeb ? "justify-between" : "justify-end"]}>
       <Button
         aria-label={settingsView ? "Apply Settings" : "Settings"}
         onclick={settingsView ? apply : settings}

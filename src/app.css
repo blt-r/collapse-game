@@ -2,9 +2,18 @@
 
 :root {
   accent-color: #34d399;
+  --height: min(100dvh, 100dvw / 16 * 9);
+  --width: min(100dvw, 100dvh * 16 / 9);
+
+  font-size: calc(var(--width) / 1920 * 16);
 }
 
 html,
 body {
   height: 100%;
+}
+
+body {
+  display: grid;
+  place-items: center;
 }

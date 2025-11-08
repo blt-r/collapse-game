@@ -5,100 +5,95 @@
 </script>
 
 <div
-  class={[
-    "inset-[10%] size-[80%] rounded-[100dvh] transition-[background-color,opacity] duration-150",
-    player === null && "opacity-0",
-    "Dots",
-  ]}
+  class="inset-[10%] size-[80%] rounded-full transition-[background-color,opacity] duration-150"
+  class:opacity-0={player === null}
   style:background-color={player === null ? "" : PLAYER_COLORS[player]}
   data-dots={dots}
 >
-  <span class="Dot1"></span>
-  <span class="Dot2"></span>
-  <span class="Dot3"></span>
-  <span class="Dot4"></span>
-  <span class="Dot5"></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
 </div>
 
 <style>
-  .Dots {
+  div {
     position: relative;
   }
 
-  .Dots span {
+  span {
     position: absolute;
-    width: 26%;
-    height: 26%;
+    inset: 37%;
     background-color: white;
     border-radius: 100dvh;
-    top: 37%;
-    left: 37%;
-    transition: transform 150ms;
+    transition: translate 150ms;
+    translate: calc(cos(var(--angle)) * 90%) calc(sin(var(--angle)) * -90%);
   }
 
-  .Dots[data-dots="2"] {
-    .Dot1,
-    .Dot3,
-    .Dot4,
-    .Dot5 {
-      transform: translate(-90%, 0);
+  [data-dots="2"] {
+    span:nth-of-type(1),
+    span:nth-of-type(3),
+    span:nth-of-type(4),
+    span:nth-of-type(5) {
+      --angle: 180deg;
     }
 
-    .Dot2 {
-      transform: translate(90%, 0);
-    }
-  }
-
-  .Dots[data-dots="3"] {
-    .Dot1,
-    .Dot4,
-    .Dot5 {
-      transform: translate(0, calc(-1 * 90%));
-    }
-
-    .Dot2 {
-      transform: translate(calc(-0.866 * 90%), calc(0.5 * 90%));
-    }
-
-    .Dot3 {
-      transform: translate(calc(0.866 * 90%), calc(0.5 * 90%));
+    span:nth-of-type(2) {
+      --angle: 0deg;
     }
   }
 
-  .Dots[data-dots="4"] {
-    .Dot1,
-    .Dot5 {
-      transform: translate(calc(-0.707 * 90%), calc(-0.707 * 90%));
+  [data-dots="3"] {
+    span:nth-of-type(1),
+    span:nth-of-type(4),
+    span:nth-of-type(5) {
+      --angle: 90deg;
     }
 
-    .Dot2 {
-      transform: translate(calc(0.707 * 90%), calc(-0.707 * 90%));
+    span:nth-of-type(2) {
+      --angle: 210deg;
     }
 
-    .Dot3 {
-      transform: translate(calc(-0.707 * 90%), calc(0.707 * 90%));
-    }
-
-    .Dot4 {
-      transform: translate(calc(0.707 * 90%), calc(0.707 * 90%));
+    span:nth-of-type(3) {
+      --angle: 330deg;
     }
   }
 
-  .Dots[data-dots="5"] {
-    .Dot1 {
-      transform: translate(calc(-0.707 * 90%), calc(-0.707 * 90%));
+  [data-dots="4"] {
+    span:nth-of-type(1),
+    span:nth-of-type(5) {
+      --angle: 135deg;
     }
 
-    .Dot2 {
-      transform: translate(calc(0.707 * 90%), calc(-0.707 * 90%));
+    span:nth-of-type(2) {
+      --angle: 45deg;
     }
 
-    .Dot3 {
-      transform: translate(calc(-0.707 * 90%), calc(0.707 * 90%));
+    span:nth-of-type(3) {
+      --angle: 225deg;
     }
 
-    .Dot4 {
-      transform: translate(calc(0.707 * 90%), calc(0.707 * 90%));
+    span:nth-of-type(4) {
+      --angle: 315deg;
+    }
+  }
+
+  [data-dots="5"] {
+    span:nth-of-type(1) {
+      --angle: 135deg;
+    }
+
+    span:nth-of-type(2) {
+      --angle: 45deg;
+    }
+
+    span:nth-of-type(3) {
+      --angle: 225deg;
+    }
+
+    span:nth-of-type(4) {
+      --angle: 315deg;
     }
   }
 </style>

@@ -1,21 +1,21 @@
 <script lang="ts">
-  import Button from "./Button.svelte";
-  import FullscreenButton from "./FullscreenButton.svelte";
-  import Pebble from "./Pebble.svelte";
-  import PlayerDisplay from "./PlayerDisplay.svelte";
-  import Settings from "./Settings.svelte";
-  import {
-    applySettings,
-    cancelSettings,
-    restartGame,
-    game,
-    processMove,
-  } from "./game.svelte.ts";
   import CheckIcon from "@lucide/svelte/icons/check";
   import RotateCcwIcon from "@lucide/svelte/icons/rotate-ccw";
   import SettingsIcon from "@lucide/svelte/icons/settings";
   import XIcon from "@lucide/svelte/icons/x";
   import { fade } from "svelte/transition";
+  import Button from "./Button.svelte";
+  import FullscreenButton from "./FullscreenButton.svelte";
+  import {
+    applySettings,
+    cancelSettings,
+    game,
+    processMove,
+    restartGame,
+  } from "./game.svelte.ts";
+  import Pebble from "./Pebble.svelte";
+  import PlayerDisplay from "./PlayerDisplay.svelte";
+  import Settings from "./Settings.svelte";
 
   let h = $derived(game.settings.height);
   let w = $derived(game.settings.width);

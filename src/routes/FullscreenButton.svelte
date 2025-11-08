@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Button from "./Button.svelte";
   import ExpandIcon from "@lucide/svelte/icons/expand";
   import ShrinkIcon from "@lucide/svelte/icons/shrink";
+  import Button from "./Button.svelte";
 
   let fsElement = $state(null);
   let isFullscreen = $derived(fsElement !== null);

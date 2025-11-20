@@ -25,9 +25,9 @@
   const inc_height = () => can_inc_height && settings.height++;
 </script>
 
-<div class="text-5xl/normal">
+<div>
   <p>Select Players:</p>
-  <div class="mx-9.5 grid grid-cols-3 gap-2.5">
+  <div class="mx-3 grid grid-cols-3 gap-0.75">
     {#each settings.players as _, p (p)}
       <button
         class={[
@@ -47,7 +47,7 @@
     {/each}
   </div>
 
-  <p class="mt-1.5">Board Size:</p>
+  <p class="mt-0.5">Board Size:</p>
   <div class="flex items-center">
     <Button
       aria-label="Increase"
@@ -57,7 +57,7 @@
     >
       <PlayIcon class="rotate-180" />
     </Button>
-    <span class="w-19 text-center">{settings.width}</span>
+    <span class="w-6 text-center">{settings.width}</span>
     <Button
       aria-label="Decrease"
       size="small"
@@ -66,7 +66,7 @@
     >
       <PlayIcon />
     </Button>
-    <XIcon class="size-10" />
+    <XIcon class="size-3" />
     <Button
       aria-label="Increase"
       size="small"
@@ -75,7 +75,7 @@
     >
       <PlayIcon class="rotate-180" />
     </Button>
-    <span class="w-19 text-center">{settings.height}</span>
+    <span class="w-6 text-center">{settings.height}</span>
     <Button
       aria-label="Decrease"
       size="small"
@@ -86,9 +86,9 @@
     </Button>
   </div>
 
-  <p class="mt-1.5">Borderless Mode:</p>
+  <p class="mt-0.5">Borderless Mode:</p>
   <label
-    class="flex w-fit cursor-pointer items-center gap-5 select-none"
+    class="flex w-fit cursor-pointer items-center gap-1.5 select-none"
     aria-label="Enable Borderless Mode"
   >
     <Button

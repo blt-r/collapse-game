@@ -10,21 +10,21 @@
 
 <ul
   class={[
-    " flex flex-col [&>li]:px-5",
+    "flex flex-col [&>li]:px-1.75",
     players.length <= 6
-      ? "gap-4 text-6xl [&>li]:py-7"
+      ? "gap-1.25 text-xl [&>li]:py-1.5"
       : players.length === 7
-        ? "gap-3.5 text-5xl [&>li]:py-7"
+        ? "gap-1 text-lg [&>li]:py-1"
         : players.length === 8
-          ? "gap-3.5 text-4xl [&>li]:py-6"
-          : "gap-3.5 text-4xl [&>li]:py-5",
+          ? "gap-1 text-base [&>li]:py-0.75"
+          : "gap-0.75 text-sm [&>li]:py-1",
   ]}
 >
   {#each players as { alive, p } (p)}
     <li
       style:background-color={PLAYER_COLORS[p]}
       class={[
-        "rounded-3xl font-bold outline-[calc(var(--spacing)*2.5)] transition-[outline-color,opacity] duration-150",
+        "rounded-lg font-bold outline-[calc(var(--spacing)*.75)] transition-[outline-color,opacity] duration-150",
         !alive && "opacity-25",
         game.currentPlayer === p && !game.inAnimation
           ? "outline-indigo-800"

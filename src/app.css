@@ -5,7 +5,7 @@
   --height: min(100dvh, 100dvw / 16 * 9);
   --width: min(100dvw, 100dvh * 16 / 9);
 
-  font-size: calc(var(--width) / 1920 * 16);
+  font-size: calc(var(--width) / 640 * 16);
 }
 
 html,

@@ -38,6 +38,8 @@ export type Settings = {
   width: number;
   height: number;
   borderless: boolean;
+  /** if false, width/height are derived from player count */
+  customSize: boolean;
 };
 
 export const settings: Settings = $state({
@@ -45,6 +47,7 @@ export const settings: Settings = $state({
   width: 10,
   height: 8,
   borderless: false,
+  customSize: true,
 });
 
 let gameId = 0;
@@ -90,6 +93,19 @@ const nextPlayer = (player: number): number => {
  */
 export const cellThreshold = (x: number, y: number): number =>
   neighbors({ x, y }).length;
+
+/**
+ * When customSize is disabled this helper returns the board dimensions
+ * to use based on the number of active players.
+ */
+export const autoBoardSize = (
+  playerCount: number,
+): { width: number; height: number } => {
+  if (playerCount <= 2) return { width: 6, height: 8 };
+  if (playerCount === 3) return { width: 7, height: 9 };
+  if (playerCount === 4 || playerCount === 5) return { width: 8, height: 10 };
+  return { width: 9, height: 11 };
+};
 
 export const processMove = async (x: number, y: number) => {
   try {
@@ -250,6 +266,13 @@ export const applySettings = () => {
   // validate settings
 
   if (settings.players.every((enabled) => !enabled)) settings.players[0] = true;
+
+  if (!settings.customSize) {
+    const count = settings.players.filter(Boolean).length;
+    const { width, height } = autoBoardSize(count);
+    settings.width = width;
+    settings.height = height;
+  }
 
   if (settings.width < settings.height) {
     [settings.width, settings.height] = [settings.height, settings.width];

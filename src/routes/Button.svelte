@@ -26,7 +26,7 @@
     "disabled:bg-gray-100 disabled:text-gray-400",
     "transition-[background_scale] duration-75",
     "active:enabled:scale-95 active:enabled:bg-gray-300",
-    size === "small" && "rounded-md p-1.25 [&>svg]:size-3.25",
+    size === "small" && "rounded-md p-1 [&>svg]:size-3",
     size === "big" && "rounded-lg p-2 [&>svg]:size-6.5",
     cls,
   ]}

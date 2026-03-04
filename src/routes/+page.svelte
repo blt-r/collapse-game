@@ -9,7 +9,9 @@
   import {
     applySettings,
     cancelSettings,
+    cellThreshold,
     game,
+    PLAYER_COLORS,
     processMove,
     restartGame,
   } from "./game.svelte.ts";
@@ -54,6 +56,17 @@
           class="m-[.1rem] grid aspect-square rounded-[17.5%] bg-gray-100"
           style:height="calc(min(100cqh/{h}, 100cqw/{w}) - .2rem)"
           onclick={() => processMove(x, y)}
+          style:background-color={(() => {
+            const cell = game.board[y][x];
+            if (cell.player === null) return "";
+            const th = cellThreshold(x, y);
+            // highlight when one more dot would trigger explosion
+            if (cell.dots === th - 1) {
+              // 20% opacity
+              return PLAYER_COLORS[cell.player] + "33";
+            }
+            return "";
+          })()}
         >
           <Pebble {...game.board[y][x]} />
         </button>

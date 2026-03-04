@@ -82,6 +82,15 @@ const nextPlayer = (player: number): number => {
   return next;
 };
 
+/**
+ * How many dots a cell must hold before it explodes.  This varies based
+ * on the number of neighbors (edges/corners have fewer neighbours unless
+ * borderless mode is enabled).  Players can use this to highlight "near
+ * explosion" cells.
+ */
+export const cellThreshold = (x: number, y: number): number =>
+  neighbors({ x, y }).length;
+
 export const processMove = async (x: number, y: number) => {
   try {
     await processMoveInternal(x, y);
@@ -105,7 +114,9 @@ const processMoveInternal = async (x: number, y: number) => {
 
       game.board[y][x] = {
         player: game.currentPlayer,
-        dots: 3,
+        // only place a single dot on the first move to avoid
+        // immediately overflowing cells with few neighbors
+        dots: 1,
       };
       const next = nextPlayer(game.currentPlayer);
       if (next <= game.currentPlayer) game.firstMove = false;
@@ -137,11 +148,12 @@ const addDot = async (x: number, y: number) => {
 
     for (let y = 0; y < game.settings.height; y++) {
       for (let x = 0; x < game.settings.width; x++) {
-        if (game.board[y][x].dots < 4) {
+        const th = cellThreshold(x, y);
+        if (game.board[y][x].dots < th) {
           continue;
         }
 
-        game.board[y][x].dots -= 4;
+        game.board[y][x].dots -= th;
         if (game.board[y][x].dots === 0) {
           game.board[y][x].player = null;
         }

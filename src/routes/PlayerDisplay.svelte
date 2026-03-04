@@ -1,10 +1,22 @@
 <script lang="ts">
   import { flip } from "svelte/animate";
-  import { game, PLAYER_COLORS, PLAYER_NAMES } from "./game.svelte.ts";
+  import { PLAYER_COLORS, PLAYER_NAMES } from "./player-meta";
+
+  let {
+    alivePlayers,
+    playerDeaths,
+    currentPlayer,
+    inAnimation,
+  }: {
+    alivePlayers: boolean[];
+    playerDeaths: number[];
+    currentPlayer: number;
+    inAnimation: boolean;
+  } = $props();
 
   const players = $derived([
-    ...game.alivePlayers.flatMap((alive, p) => (alive ? [{ alive, p }] : [])),
-    ...game.playerDeaths.map((p) => ({ alive: false, p })),
+    ...alivePlayers.flatMap((alive, p) => (alive ? [{ alive, p }] : [])),
+    ...playerDeaths.map((p) => ({ alive: false, p })),
   ]);
 </script>
 
@@ -26,7 +38,7 @@
       class={[
         "rounded-lg font-bold outline-[calc(var(--spacing)*.75)] transition-[outline-color,opacity] duration-150",
         !alive && "opacity-25",
-        game.currentPlayer === p && !game.inAnimation
+        currentPlayer === p && !inAnimation
           ? "outline-indigo-800"
           : "outline-transparent",
       ]}

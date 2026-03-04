@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PLAYER_COLORS } from "./game.svelte";
+  import { PLAYER_COLORS } from "./player-meta";
 
   const { player, dots }: { player: number | null; dots: number } = $props();
 </script>

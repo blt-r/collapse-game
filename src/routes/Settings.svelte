@@ -4,31 +4,36 @@
   import XIcon from "@lucide/svelte/icons/x";
   import { clickSound } from "$lib/sound.ts";
   import Button from "./Button.svelte";
-  import {
-    autoBoardSize,
-    MAX_HEIGHT,
-    MAX_WIDTH,
-    MIN_HEIGHT,
-    MIN_WIDTH,
-    PLAYER_NAMES,
-    settings,
-  } from "./game.svelte.ts";
+  import type { Settings as GameSettings } from "./game";
   import Pebble from "./Pebble.svelte";
+  import { PLAYER_NAMES } from "./player-meta";
+
+  let {
+    settings = $bindable(),
+    minWidth,
+    maxWidth,
+    minHeight,
+    maxHeight,
+    autoBoardSize,
+  }: {
+    settings: GameSettings;
+    minWidth: number;
+    maxWidth: number;
+    minHeight: number;
+    maxHeight: number;
+    autoBoardSize: (playerCount: number) => { width: number; height: number };
+  } = $props();
 
   let playerCount = $derived(settings.players.filter(Boolean).length);
   let autoSize = $derived(autoBoardSize(playerCount));
 
-  let can_dec_width = $derived(
-    settings.customSize && settings.width > MIN_WIDTH,
+  let canDecWidth = $derived(settings.customSize && settings.width > minWidth);
+  let canIncWidth = $derived(settings.customSize && settings.width < maxWidth);
+  let canDecHeight = $derived(
+    settings.customSize && settings.height > minHeight,
   );
-  let can_inc_width = $derived(
-    settings.customSize && settings.width < MAX_WIDTH,
-  );
-  let can_dec_height = $derived(
-    settings.customSize && settings.height > MIN_HEIGHT,
-  );
-  let can_inc_height = $derived(
-    settings.customSize && settings.height < MAX_HEIGHT,
+  let canIncHeight = $derived(
+    settings.customSize && settings.height < maxHeight,
   );
 
   // update dimensions automatically when customSize is off
@@ -39,10 +44,15 @@
     }
   });
 
-  const dec_width = () => can_dec_width && settings.width--;
-  const inc_width = () => can_inc_width && settings.width++;
-  const dec_height = () => can_dec_height && settings.height--;
-  const inc_height = () => can_inc_height && settings.height++;
+  const adjustWidth = (delta: -1 | 1) => {
+    if (delta < 0 && canDecWidth) settings.width--;
+    if (delta > 0 && canIncWidth) settings.width++;
+  };
+
+  const adjustHeight = (delta: -1 | 1) => {
+    if (delta < 0 && canDecHeight) settings.height--;
+    if (delta > 0 && canIncHeight) settings.height++;
+  };
 </script>
 
 <div class="text-sm">
@@ -92,8 +102,8 @@
       <Button
         aria-label="Decrease width"
         size="small"
-        disabled={!can_dec_width}
-        onclick={dec_width}
+        disabled={!canDecWidth}
+        onclick={() => adjustWidth(-1)}
       >
         <PlayIcon class="rotate-180" />
       </Button>
@@ -101,8 +111,8 @@
       <Button
         aria-label="Increase width"
         size="small"
-        disabled={!can_inc_width}
-        onclick={inc_width}
+        disabled={!canIncWidth}
+        onclick={() => adjustWidth(1)}
       >
         <PlayIcon />
       </Button>
@@ -110,8 +120,8 @@
       <Button
         aria-label="Decrease height"
         size="small"
-        disabled={!can_dec_height}
-        onclick={dec_height}
+        disabled={!canDecHeight}
+        onclick={() => adjustHeight(-1)}
       >
         <PlayIcon class="rotate-180" />
       </Button>
@@ -119,8 +129,8 @@
       <Button
         aria-label="Increase height"
         size="small"
-        disabled={!can_inc_height}
-        onclick={inc_height}
+        disabled={!canIncHeight}
+        onclick={() => adjustHeight(1)}
       >
         <PlayIcon />
       </Button>

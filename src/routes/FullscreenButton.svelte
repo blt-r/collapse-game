@@ -3,8 +3,8 @@
   import ShrinkIcon from "@lucide/svelte/icons/shrink";
   import Button from "./Button.svelte";
 
-  let fsElement = $state(null);
-  let isFullscreen = $derived(fsElement !== null);
+  let fsElement: Element | null = $state(null);
+  let isFullscreen = $derived(Boolean(fsElement));
 
   const toggleFullscreen = () => {
     if (isFullscreen) {
@@ -13,6 +13,18 @@
       document.documentElement.requestFullscreen({ navigationUI: "hide" });
     }
   };
+
+  $effect(() => {
+    if (isFullscreen) {
+      if ("lock" in screen.orientation) {
+        (
+          screen.orientation as {
+            lock: (orientation: "landscape") => Promise<void>;
+          }
+        ).lock("landscape");
+      }
+    }
+  });
 </script>
 
 <svelte:document bind:fullscreenElement={fsElement} />

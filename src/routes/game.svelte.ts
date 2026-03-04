@@ -47,7 +47,7 @@ export const settings: Settings = $state({
   width: 10,
   height: 8,
   borderless: false,
-  customSize: true,
+  customSize: false,
 });
 
 let gameId = 0;
